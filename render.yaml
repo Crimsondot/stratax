@@ -40,7 +40,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_CLERK_PUBLISHABLE_KEY
-        value: "pk_test_aW5zXzNKTUEyN2FHMTZ3ajhaY29RazFyMDlzMjBYayQ"
+        value: "pk_test_bGl2aW5nLW1vcmF5LTE5NDIuY2xlcmsuYWNjb3VudHMuZGV2JA"
       - key: VITE_API_URL
         sync: false
       - key: VITE_WS_URL

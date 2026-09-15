@@ -105,21 +105,11 @@ export default function App() {
   useEffect(() => { enableInteractionSounds(); }, []);
 
   if (!PUBLISHABLE_KEY) {
+    // No Clerk key configured — run dashboard without authentication (local dev mode)
     return (
-      <div style={{
-        position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'var(--bg-pitch-black)', color: 'var(--color-critical)', fontFamily: 'var(--font-sans)',
-        flexDirection: 'column', gap: 16, padding: 20, textAlign: 'center',
-      }}>
-        <h1 style={{ fontSize: 24, fontWeight: 900 }}>Mineral Sentinel</h1>
-        <p>Missing Clerk Publishable Key</p>
-        <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-          Set VITE_CLERK_PUBLISHABLE_KEY in your .env file.
-        </p>
-        <a href="https://clerk.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary)' }}>
-          Get your Clerk API keys
-        </a>
-      </div>
+      <AppProvider>
+        <DashboardContent />
+      </AppProvider>
     );
   }
 
