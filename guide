@@ -1,0 +1,86 @@
+1. Prometheus + PromQL Setup
+Prometheus scrapes metrics from targets (your mining nodes, sensors, etc.) and stores them as time-series data. PromQL is the query language you use to pull that data.
+Key PromQL examples for your dashboard:
+# Sensor readings over last 5m
+avg_over_time(sensor_temperature[5m])
+
+# Alert rate
+rate(alerts_total[1m])
+
+# Node health percentage
+(count(up == 1) / count(up)) * 100
+
+# Displacement rate (your mining use-case)
+deriv(sensor_displacement_mm[10m])
+Where Prometheus runs:
+- On Render: Deploy Prometheus as a Docker service on Render. It needs persistent disk for TSDB storage. Expose port 9090.
+- Better option: Run Prometheus on a VPS/EC2 (Render's persistent disks are expensive for metrics). Then your Render web app just queries it remotely.
+2. Backend Bridge (Your API Layer)
+Your React frontend cannot query Prometheus directly from the browser (CORS + network isolation). You need a backend API:
+Browser/App → Your API Server → Prometheus (port 9090)
+Backend options (pick one):
+- Node.js/Express — use prom-client library to query PromQL
+- Go — use api/v1/query HTTP endpoint natively
+- Python/FastAPI — use requests to hit Prometheus HTTP API
+The Prometheus HTTP API:
+GET http://<prometheus-host>:9090/api/v1/query?query=up
+GET http://<prometheus-host>:9090/api/v1/query_range?query=rate(alerts_total[1m])&start=...&end=...&step=60
+Your backend wraps these, adds auth, and serves JSON to your frontend.
+3. Render Deployment Architecture
+┌─────────────────────────────────────────┐
+│  Render Services                        │
+│                                         │
+│  ┌──────────┐    ┌──────────────────┐   │
+│  │Prometheus│    │  Backend API     │   │
+│  │(Docker)  │◄───│  (Node/Go/etc)   │   │
+│  │:9090     │    │  :3000           │   │
+│  └──────────┘    └───────┬──────────┘   │
+│                          │              │
+│  ┌───────────────────┐   │              │
+│  │  React Frontend   │◄──┘              │
+│  │  (Static/Vite)    │                  │
+│  │  :5173            │                  │
+│  └───────────────────┘                  │
+└─────────────────────────────────────────┘
+Render specifics:
+- Use Docker for Prometheus (Render's native services don't include it)
+- Use a Private Service for Prometheus so it's not public-facing
+- Backend API connects to Prometheus via internal DNS: prometheus:9090
+- Frontend is a Static Site (Vite build output) or served by your backend
+4. Android App Approach
+Three options, ranked by effort:
+Approach	How	Effort
+PWA	Wrap your existing React app in a PWA manifest. Users install from browser.	Lowest
+Capacitor/Ionic	Wrap React app in a native shell. Build APK.	Medium
+Native Android (Kotlin)	Build separately, call same backend API.	Highest
+Recommended: PWA or Capacitor
+- Your React dashboard already works on mobile browsers
+- Add a manifest.json + service worker → installable as PWA
+- For a proper APK, use Capacitor (npx cap init + npx cap add android)
+Android app connects to same backend API — no Prometheus in mobile app, just REST/GraphQL calls to your API server on Render.
+5. Data Flow Summary
+Mining Sensors/Nodes
+        │
+        ▼ (scrape metrics)
+   Prometheus (:9090)
+        │
+        ▼ (PromQL over HTTP)
+   Backend API (:3000)
+        │
+        ├──────────────────┐
+        ▼                  ▼
+  React Dashboard    Android App
+  (Render Static)    (APK/PWA)
+6. Key Gotchas
+- Render free tier spins down idle services — Prometheus will lose data on cold start. Use paid tier or external Prometheus host.
+- CORS: Your backend must set Access-Control-Allow-Origin for your frontend domain.
+- Auth: Never expose Prometheus publicly. Always proxy through your backend with JWT/session auth.
+- Render env vars: Store PROMETHEUS_URL=http://prometheus:9090 as a service env var.
+- Android deep linking: Use universal links or custom URL scheme to open your PWA from native Android.
+- WebSocket for live data: For real-time sensor feeds, your backend can use WebSockets to push PromQL subscription results to both web and Android clients.
+TL;DR: Prometheus holds metrics → your backend queries it via PromQL HTTP API → frontend/android consume your backend's JSON. Deploy Prometheus as a Docker private service on Render, backend as a web service, frontend as static site. Android via PWA or Capacitor wrapping the same React code.
+▣  Build · MiMo V2.5 Free · 39.5s
+[7:10 pm, 9/9/2026] Umang: Taste Skill
+[7:10 pm, 9/9/2026] Umang: Impecable
+[7:11 pm, 9/9/2026] Umang: Awesome design. md
+[7:12 pm, 9/9/2026] Umang: img2threeJS.   use all these skills you can find them on github please make it look less vibecoded please

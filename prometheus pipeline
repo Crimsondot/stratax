@@ -1,0 +1,60 @@
+ Yes — the Prometheus path is now built in.
+
+  What changed:
+
+  - FastAPI securely proxies Prometheus queries:
+      - GET /api/v1/prometheus/query
+      - GET /api/v1/prometheus/query_range
+      - GET /api/v1/prometheus/telemetry
+
+  - Dashboard Settings now includes “Prometheus (via Strata-X API)” as a live
+    source.
+
+  - Prometheus readings are converted into the same sensor packet format already
+    used by the dashboard.
+
+  - Android can use the same backend APIs—without embedding Prometheus
+    credentials.
+
+  - Added setup and API documentation: PROMETHEUS_INTEGRATION.md
+
+  To configure it:
+
+  cd /home/umang/Desktop/Strata-x/Dashboard/strata-x/backend
+  cp .env.example .env
+
+  Edit .env and set:
+
+  PROMETHEUS_URL=http://YOUR_PROMETHEUS_SERVER:9090
+  PROMETHEUS_BEARER_TOKEN=your-token-if-required
+  PROMETHEUS_TELEMETRY_QUERY=mine_sensor_reading
+
+  Then start the backend:
+
+  python3 -m pip install -r requirements.txt
+  uvicorn main:app --host 0.0.0.0 --port 8000
+
+  In the dashboard, go to Settings:
+
+  1. Select Prometheus (via Strata-X API)
+  2. Enter http://YOUR_BACKEND_IP:8000
+  3. Save Configuration
+
+  Your Prometheus metric needs labels such as:
+
+  mine_sensor_reading{
+    node_id="NODE-01",
+    sensor_type="methane",
+    zone_id="ZONE-P4B",
+    unit="% Vol"
+  } 0.42
+
+  The Android app should call the FastAPI server, for example:
+
+  GET http://YOUR_BACKEND_IP:8000/api/v1/prometheus/telemetry
+  GET
+  http://YOUR_BACKEND_IP:8000/api/v1/prometheus/query?query=mine_sensor_reading
+
+  TypeScript, production build, and backend Python syntax validation all pass.
+
+

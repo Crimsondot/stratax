@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(chmod +x *)",
+      "Bash(python3 -m http.server 8080)",
+      "Bash(curl *)",
+      "Bash(netstat -tuln)",
+      "Bash(/home/umang/Desktop/Strata-x/Dashboard/strata-x/start.sh)",
+      "Bash(grep *)",
+      "Bash(kill 5357 5358 5359)",
+      "Bash(kill 5867 5870 5879)"
+    ]
+  }
+}

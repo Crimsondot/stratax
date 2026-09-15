@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: stratax-api
+    runtime: python
+    region: singapore
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PROMETHEUS_URL
+        sync: false
+      - key: PROMETHEUS_BEARER_TOKEN
+        sync: false
+      - key: PROMETHEUS_TELEMETRY_QUERY
+        value: mine_sensor_reading
+      - key: PROMETHEUS_TIMEOUT_SECONDS
+        value: "10"
+      - key: MQTT_HOST
+        sync: false
+      - key: MQTT_PORT
+        value: "1883"
+      - key: MQTT_USERNAME
+        sync: false
+      - key: MQTT_PASSWORD
+        sync: false
+      - key: MQTT_TOPIC
+        value: mineguard/site01/+/#
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: OLLAMA_ENABLED
+        value: "false"
+
+  - type: web
+    name: stratax-dashboard
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_WS_URL
+        sync: false

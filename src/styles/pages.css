@@ -1,0 +1,137 @@
+/* ==========================================================================
+   PAGES.CSS — Layout and Card Grid Rules for Secondary Navigation Views
+   ========================================================================== */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  animation: page-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Grid Views (Nodes, Sensors, Analytics) */
+.page-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 20px;
+}
+
+.page-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.page-grid-2 > *,
+.page-grid-3 > * {
+  animation: card-stagger 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.page-grid-2 > *:nth-child(odd) { animation-delay: 0ms; }
+.page-grid-2 > *:nth-child(even) { animation-delay: 80ms; }
+.page-grid-3 > *:nth-child(1) { animation-delay: 0ms; }
+.page-grid-3 > *:nth-child(2) { animation-delay: 60ms; }
+.page-grid-3 > *:nth-child(3) { animation-delay: 120ms; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 20px;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Chart Canvas Wrapper */
+.chart-container {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  border-radius: 8px;
+  background: var(--bg-input);
+  padding: 10px;
+}
+
+/* Node health degradation flash */
+.node-card-degrading {
+  animation: health-flash 1.5s ease-in-out infinite;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-stagger {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes health-flash {
+  0%, 100% { border-color: var(--border-card); }
+  50% { border-color: var(--color-warning); }
+}
+
+/* Keyframes for Glowing Telemetry */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

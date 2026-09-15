@@ -1,0 +1,148 @@
+/* ==========================================================================
+    THEME.CSS — Industrial Color Palette (Strata-x Sentinel)
+    ========================================================================== */
+
+:root {
+  /* Color Palette — Base & Surfaces */
+  --bg-pitch-black: #0a0a0a;
+  --bg-app: #111111;
+  --bg-sidebar: #141414;
+  --bg-topbar: rgba(20, 20, 20, 0.9);
+  --bg-card: rgba(24, 24, 24, 0.8);
+  --bg-card-hover: rgba(32, 32, 32, 0.9);
+  --bg-input: rgba(28, 28, 28, 0.95);
+  --bg-elevated: #1a1a1a;
+  --bg-chip: #1a1a1a;
+  --bg-map-overlay: rgba(17, 17, 17, 0.92);
+  --bg-panel: #181818;
+  --bg-panel-elevated: #202020;
+  --bg-panel-header: #151515;
+
+  /* Accent Colors */
+  --color-gold: #f59e0b;
+  --color-gold-hover: #fbbf24;
+  --color-gold-glow: rgba(245, 158, 11, 0.15);
+
+  --color-cyan: #06b6d4;
+  --color-cyan-glow: rgba(6, 182, 212, 0.1);
+
+  --color-critical: #ef4444;
+  --color-critical-glow: rgba(239, 68, 68, 0.25);
+
+  --color-warning: #f59e0b;
+  --color-warning-glow: rgba(245, 158, 11, 0.2);
+
+  --color-normal: #10b981;
+  --color-normal-glow: rgba(16, 185, 129, 0.2);
+
+  --color-info: #3b82f6;
+  --color-info-glow: rgba(59, 130, 246, 0.2);
+
+  /* Borders & Glassmorphism */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(6, 182, 212, 0.4);
+  --border-medium: rgba(255, 255, 255, 0.18);
+  --border-critical: rgba(239, 68, 68, 0.6);
+  --glass-blur: blur(16px);
+  --glass-backdrop: backdrop-filter var(--glass-blur);
+
+  /* Typography */
+  --font-sans: 'Inter', 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Text colors */
+  --text-main: #f5f5f5;
+  --text-muted: #a3a3a3;
+  --text-subtle: #737373;
+  --text-inverse: #0a0a0a;
+  /* Compatibility aliases used by the dashboard components. */
+  --text-bright: #ffffff;
+  --text-primary: #f5f5f5;
+  --text-secondary: #cbd5e1;
+  --color-primary: #f59e0b;
+  --color-primary-light: #fbbf24;
+  --color-telemetry: #22d3ee;
+  --color-purple: #c084fc;
+  --color-high-risk: #fb923c;
+  --color-bright: #ffffff;
+  --color-muted: #cbd5e1;
+  --color-offline: #94a3b8;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.7);
+  --shadow-glow-gold: 0 0 0 1px rgba(245, 158, 11, 0.1), 0 4px 12px rgba(245, 158, 11, 0.05);
+  --shadow-glow-cyan: 0 0 0 1px rgba(6, 182, 212, 0.08), 0 4px 12px rgba(6, 182, 212, 0.04);
+  --shadow-glow-critical: 0 0 0 1px rgba(239, 68, 68, 0.2), 0 4px 12px rgba(239, 68, 68, 0.1);
+  --shadow-glow-normal: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 4px 12px rgba(16, 185, 129, 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-medium: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --bg-pitch-black: #f5f5f5;
+  --bg-app: #ffffff;
+  --bg-sidebar: #fafafa;
+  --bg-topbar: rgba(255, 255, 255, 0.92);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: rgba(245, 245, 245, 0.98);
+  --bg-input: #f8fafc;
+  --bg-elevated: #ffffff;
+  --bg-chip: #f1f5f9;
+  --bg-map-overlay: rgba(255, 255, 255, 0.96);
+  --bg-panel: #ffffff;
+  --bg-panel-elevated: #f8fafc;
+  --bg-panel-header: #f1f5f9;
+
+  --color-gold: #92400e;
+  --color-gold-hover: #78350f;
+  --color-gold-glow: rgba(217, 119, 6, 0.1);
+
+  --color-cyan: #0891b2;
+  --color-cyan-glow: rgba(8, 145, 178, 0.08);
+
+  --color-critical: #dc2626;
+  --color-critical-glow: rgba(220, 38, 38, 0.15);
+
+  --color-warning: #92400e;
+  --color-warning-glow: rgba(217, 119, 6, 0.15);
+
+  --color-normal: #047857;
+  --color-normal-glow: rgba(5, 150, 105, 0.15);
+
+  --color-info: #2563eb;
+  --color-info-glow: rgba(37, 99, 235, 0.15);
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-card: rgba(0, 0, 0, 0.1);
+  --border-focus: rgba(8, 145, 178, 0.3);
+  --border-medium: rgba(17, 24, 39, 0.28);
+  --border-critical: rgba(185, 28, 28, 0.7);
+
+  --text-main: #111827;
+  --text-muted: #374151;
+  --text-subtle: #4b5563;
+  --text-inverse: #ffffff;
+  --text-bright: #111827;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --color-primary: #b45309;
+  --color-primary-light: #92400e;
+  --color-telemetry: #0e7490;
+  --color-purple: #6d28d9;
+  --color-high-risk: #c2410c;
+  --color-bright: #111827;
+  --color-muted: #374151;
+  --color-offline: #475569;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-glow-gold: 0 0 0 1px rgba(217, 119, 6, 0.08), 0 4px 12px rgba(217, 119, 6, 0.04);
+  --shadow-glow-cyan: 0 0 0 1px rgba(8, 145, 178, 0.06), 0 4px 12px rgba(8, 145, 178, 0.03);
+  --shadow-glow-critical: 0 0 0 1px rgba(220, 38, 38, 0.1), 0 4px 12px rgba(220, 38, 38, 0.06);
+  --shadow-glow-normal: 0 0 0 1px rgba(5, 150, 105, 0.1), 0 4px 12px rgba(5, 150, 105, 0.06);
+}
