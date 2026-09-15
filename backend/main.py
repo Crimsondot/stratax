@@ -21,7 +21,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from jose import jwt as jose_jwt
+
+try:
+    from jose import jwt as jose_jwt
+except ImportError:
+    jose_jwt = None
 
 try:
     import paho.mqtt.client as mqtt
@@ -56,7 +60,7 @@ CLERK_SECRET_KEY = os.getenv("CLERK_SECRET_KEY", "")
 
 async def verify_clerk_token(authorization: str = Header(None)) -> dict[str, Any]:
     """Verify Clerk JWT token from Authorization header."""
-    if not CLERK_SECRET_KEY:
+    if not CLERK_SECRET_KEY or jose_jwt is None:
         return {"sub": "dev", "role": "operator"}
     token = authorization.replace("Bearer ", "") if authorization and authorization.startswith("Bearer ") else ""
     if not token:
