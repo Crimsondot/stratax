@@ -30,6 +30,8 @@ services:
         sync: false
       - key: OLLAMA_ENABLED
         value: "false"
+      - key: CLERK_SECRET_KEY
+        sync: false
 
   - type: web
     name: stratax-dashboard
@@ -37,6 +39,8 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
+      - key: VITE_CLERK_PUBLISHABLE_KEY
+        value: "pk_test_aW5zXzNKTUEyN2FHMTZ3ajhaY29RazFyMDlzMjBYayQ"
       - key: VITE_API_URL
         sync: false
       - key: VITE_WS_URL

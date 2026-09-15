@@ -20,8 +20,8 @@ import { enableInteractionSounds } from './services/interactionSound';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || '';
 
-// Determine if Clerk should be used: must be a non‑empty string and longer than a typical placeholder
-const USE_CLERK = PUBLISHABLE_KEY && PUBLISHABLE_KEY.length > 30 && !PUBLISHABLE_KEY.includes('hvZivCMhxIYzegyOVBMtm7Bk');
+// Determine if Clerk should be used: must be a valid publishable key
+const USE_CLERK = PUBLISHABLE_KEY && PUBLISHABLE_KEY.startsWith('pk_') && PUBLISHABLE_KEY.length > 30;
 
 const DashboardContent: React.FC = () => {
   const { activeTab, simulationState } = useApp();
